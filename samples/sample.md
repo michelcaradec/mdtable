@@ -1,0 +1,6 @@
+|Argument|Description|Values (default in bold)|Example|
+|---|---|---|---|
+|in|Type of input|**csv**, md|`-in:md`|
+|out|Type of output|csv, **md**|`-out:csv`|
+|separator|Column separator for csv input or output|*character* (default = **semicolon**)|`-separator:,`|
+|mini|Minified markdown table output||`-mini`|
