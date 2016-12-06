@@ -94,7 +94,7 @@ def main(args):
     elif output_type == "md":
         table = get_md_table(get_column_store_from_matrix(matrix), formatted)
     else:
-        raise Exception("Invalid output type: %s (csv or md expected)" % input_type)
+        raise Exception("Invalid output type: %s (csv or md expected)" % output_type)
 
     sys.stdout.write(table)
     sys.stdout.flush()
