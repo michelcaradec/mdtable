@@ -21,18 +21,30 @@ def get_matrix_from_md(stream):
         yield [col.strip(" \r\n") for col in cols][1:len(cols) - 1]
 
 
-def get_column_store_from_matrix(matrix):
+def get_column_store_from_matrix(matrix, escape=False):
     """Return input stream as a column-store."""
     columns = []
 
     for row in matrix:
         if not len(columns):
-            columns = [[col] for col in row]
+            columns = [[get_escaped_string(col, escape)] for col in row]
         else:
             for idx, col in enumerate(row):
-                columns[idx].append(col)
+                columns[idx].append(get_escaped_string(col, escape))
 
     return columns
+
+
+MARKDOWN_ESCAPE_CHAR = "\\`*_{}[]()#+-.!"
+
+
+def get_escaped_string(text, escape=True):
+    """Return text with escaped characters for markdown."""
+    if escape:
+        for esc_chr in MARKDOWN_ESCAPE_CHAR:
+            text = text.replace(esc_chr, "\\" + esc_chr)
+
+    return text
 
 
 def get_formatted_string(text, width, formatted=True):
@@ -68,6 +80,7 @@ def get_csv_table(column_store, separator=";"):
 def main(args):
     """Main function."""
     formatted = True
+    escape = False
     input_type = "csv"
     output_type = "md"
     separator = ";"
@@ -81,6 +94,11 @@ def main(args):
             output_type = arg[5:].lower()
         elif arg.startswith("-separator:"):
             separator = arg[11:]
+        elif arg.startswith("-escape"):
+            escape = True
+
+    if separator == "tab":
+        separator = "\t"
 
     if input_type == "csv":
         matrix = get_matrix_from_csv(sys.stdin, separator)
@@ -92,7 +110,7 @@ def main(args):
     if output_type == "csv":
         table = get_csv_table(get_column_store_from_matrix(matrix), separator)
     elif output_type == "md":
-        table = get_md_table(get_column_store_from_matrix(matrix), formatted)
+        table = get_md_table(get_column_store_from_matrix(matrix, escape), formatted)
     else:
         raise Exception("Invalid output type: %s (csv or md expected)" % output_type)
 

@@ -2,5 +2,6 @@
 |---|---|---|---|
 |in|Type of input|**csv**, md|`-in:md`|
 |out|Type of output|csv, **md**|`-out:csv`|
-|separator|Column separator for csv input or output|*character* (default = **semicolon**)|`-separator:,`|
+|separator|Column separator for csv input or output|*character* (default = **semicolon**, **tab** for tabulation)|`-separator:,`|
 |mini|Minified markdown table output||`-mini`|
+|escape|Escape characters in markdown output||`-escape`|
