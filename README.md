@@ -20,7 +20,7 @@ It converts CSV to markdown table, or markdown table to CSV.
 
 ```bash
 cat samples/sample.csv | python mdtable.py
-cat samples/sample.csv | python mdtable.py -separator:;
+cat samples/sample.csv | python mdtable.py "-separator:;"
 cat samples/sample.csv | python mdtable.py -mini
 ```
 
@@ -34,5 +34,5 @@ cat samples/sample.md | python mdtable.py -in:md
 
 ```bash
 cat samples/sample.md | python mdtable.py -in:md -out:csv
-cat samples/sample.md | python mdtable.py -in:md -out:csv -separator:,
+cat samples/sample.md | python mdtable.py -in:md -out:csv "-separator:,"
 ```
