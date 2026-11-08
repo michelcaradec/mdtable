@@ -94,7 +94,8 @@ def get_md_table(
             + __SEPARATOR_PIPE.join(
                 (get_formatted_string(column, width, formatted) for column, width in zip(columns, widths))
             )
-            + __SEPARATOR_PIPE + '\n'
+            + __SEPARATOR_PIPE
+            + '\n'
         )
         if idx == 0:
             md_table += (
