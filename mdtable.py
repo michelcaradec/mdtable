@@ -1,3 +1,5 @@
+import csv
+import io
 import sys
 from typing import (
     List,
@@ -18,8 +20,9 @@ def get_matrix_from_csv(
     """Return a matrix of values from an input stream containing csv data."""
     matrix: Matrix = []
 
-    for line in stream:
-        matrix.append([col.strip('\r\n') for col in line.split(separator)])
+    reader = csv.reader(stream, delimiter=separator)
+    for line in reader:
+        matrix.append(line)
 
     return matrix
 
@@ -94,7 +97,8 @@ def get_md_table(
             + __SEPARATOR_PIPE.join(
                 (get_formatted_string(column, width, formatted) for column, width in zip(columns, widths))
             )
-            + __SEPARATOR_PIPE + '\n'
+            + __SEPARATOR_PIPE
+            + '\n'
         )
         if idx == 0:
             md_table += (
@@ -112,13 +116,14 @@ def get_csv_table(
     separator: str = ';',
 ) -> str:
     """Return a csv table from a column-store."""
-    csv_table: str = ''
+    with io.StringIO() as csv_table:
+        writer = csv.writer(csv_table, delimiter=separator)
+        
+        for idx in range(len(column_store[0])):
+            columns = (column[idx] for column in column_store)
+            writer.writerow(columns)
 
-    for idx in range(len(column_store[0])):
-        columns = (column[idx] for column in column_store)
-        csv_table += separator.join(columns) + '\n'
-
-    return csv_table
+        return csv_table.getvalue()
 
 
 def main(args: List[str]) -> None:

@@ -1,0 +1,13 @@
+[project]
+name = "mdtable"
+version = "0.1.0"
+description = "Command line tool to generate formatted markdown tables easy to read, even without markdown rendering"
+readme = "README.md"
+authors = [
+    { name = "Michel Caradec", email = "mcaradec@proton.me" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.uv]
+package = false
