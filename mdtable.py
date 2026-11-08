@@ -1,4 +1,5 @@
 import csv
+import io
 import sys
 from typing import (
     List,
@@ -115,13 +116,14 @@ def get_csv_table(
     separator: str = ';',
 ) -> str:
     """Return a csv table from a column-store."""
-    csv_table: str = ''
+    with io.StringIO() as csv_table:
+        writer = csv.writer(csv_table, delimiter=separator)
+        
+        for idx in range(len(column_store[0])):
+            columns = (column[idx] for column in column_store)
+            writer.writerow(columns)
 
-    for idx in range(len(column_store[0])):
-        columns = (column[idx] for column in column_store)
-        csv_table += separator.join(columns) + '\n'
-
-    return csv_table
+        return csv_table.getvalue()
 
 
 def main(args: List[str]) -> None:
