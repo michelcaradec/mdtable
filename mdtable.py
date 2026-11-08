@@ -1,3 +1,4 @@
+import csv
 import sys
 from typing import (
     List,
@@ -18,8 +19,9 @@ def get_matrix_from_csv(
     """Return a matrix of values from an input stream containing csv data."""
     matrix: Matrix = []
 
-    for line in stream:
-        matrix.append([col.strip('\r\n') for col in line.split(separator)])
+    reader = csv.reader(stream, delimiter=separator)
+    for line in reader:
+        matrix.append(line)
 
     return matrix
 
